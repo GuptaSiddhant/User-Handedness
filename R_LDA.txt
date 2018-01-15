@@ -1,0 +1,226 @@
+
+R version 3.4.2 (2017-09-28) -- "Short Summer"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[R.app GUI 1.70 (7434) x86_64-apple-darwin15.6.0]
+
+[Workspace restored from /Users/gs/.RData]
+[History restored from /Users/gs/.Rapp.history]
+
+> library(MASS)
+> file <- read.csv(file.choose()) //File chosen here "sheetdata.csv"
+> plot (file[,2:4], col=file[,1], main = "Angular Tilt of Mobile Device",) 
+> file.lda <- lda( Hand ~ aX + aY + aZ, data=file)
+> plot(file.lda)
+> file.lda
+Call:
+lda(Hand ~ aX + aY + aZ, data = file)
+
+Prior probabilities of groups:
+ left right 
+  0.5   0.5 
+
+Group means:
+           aX      aY      aZ
+left  36.7146  2.8018 10.4742
+right 35.3854 -3.7990 19.7546
+
+Coefficients of linear discriminants:
+           LD1
+aX -0.01127498
+aY -0.33659226
+aZ  0.41853455
+> plot(file.lda, col="red")
+> file.lda.p <- predict (file.lda, newdata=file[,c(2:4)])$class
+> plot(file.lda.p)
+> table(file.lda.p, file[,1])
+          
+file.lda.p left right
+     left    50     0
+     right    0    50
+> 
+> file.lda.2 <- lda( Hand ~ aX + aY + aZ, data=file, CV=TRUE)
+> table(file.lda.2$class, file[,1])
+       
+        left right
+  left    50     0
+  right    0    50
+> library(psych)
+> set.seed(555)
+> ind <- sample(2, nrow(file), replace=TRUE, prob= c(0.6, 0.4))
+> training <- file[ind==1,]
+> training
+    Hand    aX    aY    aZ
+1   left 45.84  2.32  9.98
+4  right 17.79 -1.82 18.97
+6  right 24.48 -4.28 22.71
+8  right 43.29 -5.93 19.98
+9   left 47.39  5.13 15.25
+12 right 35.41  0.48 18.40
+13  left 39.12  3.37 14.91
+14 right 44.23 -0.35 19.13
+17  left 33.43  1.24  6.21
+18 right 33.95 -0.04 21.83
+21  left 34.37 -0.32 12.27
+22 right 44.93 -1.56 20.37
+23  left 25.16  0.28 12.14
+24 right 43.66 -4.99 18.46
+25  left 34.58  0.81  8.86
+26 right 28.13 -4.85 20.02
+27  left 35.83  5.79 11.16
+29  left 45.69  0.49 12.00
+30 right 44.75 -0.93 20.80
+31  left 45.15  0.76  9.13
+32 right 37.24 -3.02 19.20
+34 right 39.04 -0.58 20.34
+35  left 26.23  2.29 12.63
+36 right 45.24 -3.92 21.91
+37  left 25.72  0.37  7.78
+38 right 45.54 -0.01 18.66
+40 right 34.84 -0.83 18.27
+42 right 29.71 -5.82 21.33
+45  left 32.58  1.66  6.40
+46 right 32.94  0.17 21.69
+48 right 35.16 -0.79 19.06
+49  left 41.15  5.28  6.55
+50 right 42.22 -6.60 20.51
+51  left 28.62  0.75 12.58
+52 right 35.21 -1.87 20.96
+54 right 31.73 -0.79 18.35
+55  left 39.96  4.19  8.91
+56 right 36.10 -3.68 21.89
+57  left 42.56  5.89  6.89
+58 right 43.73 -3.52 18.50
+61  left 38.89  2.64 10.87
+62 right 33.98 -6.21 21.20
+63  left 38.38  4.82 12.15
+64 right 39.55  0.89 18.20
+67  left 25.96  5.27 13.79
+68 right 30.28 -2.22 19.85
+69  left 41.65  3.40  6.79
+71  left 40.06  5.39 13.33
+72 right 38.61 -5.72 18.79
+73  left 30.52  5.22  6.06
+77  left 38.63  5.88 10.59
+79  left 25.12  5.89  6.49
+80 right 32.61 -6.07 19.66
+87  left 26.28 -0.39 12.90
+88 right 31.08 -2.94 21.48
+89  left 40.19  5.14 13.79
+92 right 31.41 -2.27 18.30
+95  left 40.43  1.53  8.48
+98 right 38.79  0.19 19.74
+99  left 43.36  0.51 13.20
+> testing <- file[ind==2,]
+> print(testing)
+     Hand    aX    aY    aZ
+2   right 44.12 -6.37 18.62
+3    left 30.81  5.04  5.54
+5    left 29.53  0.39 13.03
+7    left 51.95  2.18 13.43
+10  right 50.76 -3.28 22.54
+11   left 40.12  3.40 10.20
+15   left 42.54 -0.58  6.69
+16  right 49.23 -3.77 18.38
+19   left 36.54 -0.69  7.55
+20  right 34.16 -2.80 19.31
+28  right 27.18 -2.92 18.35
+33   left 33.72  4.98  7.24
+39   left 31.29  5.84 14.58
+41   left 45.92  4.05  7.78
+43   left 43.30  4.61 10.43
+44  right 33.11 -3.36 18.55
+47   left 31.47  4.04 12.12
+53   left 36.06  0.44 12.38
+59   left 38.09  0.95  8.37
+60  right 27.27 -4.25 21.98
+65   left 38.49  1.94 12.61
+66  right 26.64 -6.60 21.44
+70  right 25.71 -1.41 21.29
+74  right 34.99 -5.53 19.28
+75   left 27.55  3.83  7.95
+76  right 26.83 -4.85 20.04
+78  right 41.33 -2.58 21.72
+81   left 36.55  5.76 12.81
+82  right 27.19 -1.50 21.17
+83   left 41.20  2.79 14.69
+84  right 40.27 -1.07 21.23
+85   left 42.95  3.72 12.42
+86  right 28.72 -5.22 19.03
+90  right 28.38 -3.84 21.97
+91   left 39.55  5.49 11.33
+93   left 44.02  4.04 14.39
+94  right 31.09 -4.33 18.22
+96  right 43.32 -6.21 19.35
+97   left 33.65  5.94 10.95
+100 right 28.88  0.14 18.50
+> file.lda <- lda (Hand~., training)
+> file.lda
+Call:
+lda(Hand ~ ., data = training)
+
+Prior probabilities of groups:
+     left     right 
+0.4833333 0.5166667 
+
+Group means:
+            aX        aY       aZ
+left  36.30517  2.951724 10.41690
+right 36.31065 -2.576774 19.95355
+
+Coefficients of linear discriminants:
+            LD1
+aX  0.006896045
+aY -0.183145901
+aZ  0.384160359
+> plot (file.lda)
+> linear <- file.lda
+> attributes(linear)
+$names
+ [1] "prior"   "counts"  "means"   "scaling" "lev"     "svd"     "N"       "call"    "terms"   "xlevels"
+$class
+[1] "lda"
+> linear$prior
+     left     right 
+0.4833333 0.5166667 
+> linear$counts
+ left right 
+   29    31 
+> p1 <- predict(linear, training)$class
+> tab <- table(Predicted = p1, Actual = training$Hand)
+> tab
+         Actual
+Predicted left right
+    left    29     0
+    right    0    31
+> sum(diag(tab))/sum(tab)
+[1] 1
+> p2 <- predict(linear, testing)$class
+> tab2 <- table(p2, testing$Hand)
+> tab2
+       
+p2      left right
+  left    21     0
+  right    0    19
+> tab2 <- table(Predicted = p2, Actual = testing$Hand)
+> tab2
+         Actual
+Predicted left right
+    left    21     0
+    right    0    19
+> 
