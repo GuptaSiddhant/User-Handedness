@@ -5,4 +5,8 @@ Files Included
 
 • Collected Data in CSV format (including additional Group column) - "sheetdata.csv"
 
-• Results of performed Linear Discriminant Analysis (LDA) in R - "LDA_result.txt"
+• The console input/output in R - "R_LDA.txt"
+
+• Results of performed Linear Discriminant Analysis (LDA) in R - "LDA_results.txt"
+
+The results show 100% accuracy and this can allow determining in user's interactive hand to make adaptive user-interface.
