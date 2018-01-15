@@ -1,0 +1,41 @@
+LDA Results
+
+TRAINING Call:
+lda(Hand ~ ., data = training)
+
+Prior probabilities of groups:
+     left     right 
+0.4833333 0.5166667 
+
+Group means:
+            aX        aY       aZ
+left  36.30517  2.951724 10.41690
+right 36.31065 -2.576774 19.95355
+
+Coefficients of linear discriminants:
+            LD1
+aX  0.006896045
+aY -0.183145901
+aZ  0.384160359
+
+Proportion of Trace
+LD1
+1.0000
+
+___________________________
+Confusion Matrix & Accuracy - Training Data
+
+       		Actual
+Predicted 	left right
+    left  	  29     0
+    right  	  0    31
+#No confusion - Correct Classification 100% accuracy
+
+___________________________
+Confusion Matrix & Accuracy - Testing Data
+
+      Actual
+Predicted left right
+    left    21     0
+    right    0    19
+#No confusion - Correct Classification 100% accuracy
